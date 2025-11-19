@@ -284,24 +284,6 @@
             margin-bottom: 8px;
         }
 
-        .dashboard-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 18px;
-        }
-
-        .dashboard-controls label {
-            font-size: 1rem;
-        }
-
-        .dashboard-controls select {
-            max-width: 260px;
-            font-size: 1rem;
-            padding: 10px 12px;
-        }
-
         .stat-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -499,7 +481,7 @@
         <h1>💰 Controle de Gastos da Viagem</h1>
         <p>Registre suas despesas de forma simples e acompanhe seus gastos durante a viagem</p>
     </header>
-
+<!--
     <div class="info-box">
         <p><strong>💡 Como usar:</strong></p>
         <p>1️⃣ Preencha o formulário abaixo com cada gasto</p>
@@ -507,7 +489,7 @@
         <p>3️⃣ Seus dados são salvos automaticamente no celular/computador</p>
         <p>4️⃣ Use os botões abaixo da tabela para exportar ou importar dados</p>
     </div>
-
+-->
     <form id="expense-form">
         <div class="form-row">
             <label for="date">📅 Data da despesa (DD/MM/AAAA)</label>
@@ -533,17 +515,7 @@
         </div>
 
         <div class="form-row">
-            <label for="currency">💵 Moeda</label>
-            <select id="currency">
-                <option value="BRL">Real (R$)</option>
-                <option value="USD">Dólar ($)</option>
-                <option value="EUR">Euro (€)</option>
-                <option value="Outra">Outra</option>
-            </select>
-        </div>
-
-        <div class="form-row">
-            <label for="amount">💰 Valor gasto</label>
+            <label for="amount">💰 Valor gasto (R$)</label>
             <input type="number" id="amount" step="0.01" min="0" placeholder="0.00" required>
         </div>
 
@@ -553,18 +525,21 @@
     </form>
 
     <div class="actions">
+    <!--
         <button id="export-csv" class="btn btn-primary">
             <span class="btn-icon">📤</span> Exportar Dados (CSV)
         </button>
         <button id="import-csv" class="btn btn-secondary">
             <span class="btn-icon">📥</span> Importar Dados (CSV)
         </button>
-        <button id="save-browser" class="btn btn-secondary">
-            <span class="btn-icon">💾</span> Salvar no Navegador
-        </button>
         <button id="clear-data" class="btn btn-danger">
             <span class="btn-icon">🗑️</span> Limpar Tudo
         </button>
+        -->
+        <button id="save-browser" class="btn btn-secondary">
+            <span class="btn-icon">💾</span> Salvar
+        </button>
+        
     </div>
 
     <input type="file" id="import-file" accept=".csv" style="display:none">
@@ -578,13 +553,12 @@
                     <th>📅 Data</th>
                     <th>📝 Descrição</th>
                     <th>🏷️ Categoria</th>
-                    <th>💵 Moeda</th>
-                    <th>💰 Valor</th>
+                    <th>💰 Valor (R$)</th>
                     <th>🗑️ Ações</th>
                 </tr>
             </thead>
             <tbody id="expense-body">
-                <tr><td colspan="6" class="empty">Nenhuma despesa cadastrada ainda. Adicione sua primeira despesa acima! 👆</td></tr>
+                <tr><td colspan="5" class="empty">Nenhuma despesa cadastrada ainda. Adicione sua primeira despesa acima! 👆</td></tr>
             </tbody>
         </table>
     </div>
@@ -600,25 +574,20 @@
         </div>
 
         <div id="dashboard-content" style="display:none;">
-            <div class="dashboard-controls">
-                <label for="dashboard-currency-select">Escolha a moeda para ver as estatísticas:</label>
-                <select id="dashboard-currency-select"></select>
-            </div>
-
             <div class="stat-cards" id="stat-cards"></div>
 
             <div class="chart-container">
-                <div class="chart-title">📊 Gastos por Categoria</div>
+                <div class="chart-title">📊 Gastos por Categoria (R$)</div>
                 <canvas id="chartByCategory" height="120"></canvas>
             </div>
 
             <div class="chart-container">
-                <div class="chart-title">📈 Gastos por Dia</div>
+                <div class="chart-title">📈 Gastos por Dia (R$)</div>
                 <canvas id="chartByDate" height="120"></canvas>
             </div>
 
             <div class="chart-container">
-                <div class="chart-title">📋 Resumo por Categoria</div>
+                <div class="chart-title">📋 Resumo por Categoria (R$)</div>
                 <div id="table-category"></div>
             </div>
         </div>
@@ -666,18 +635,15 @@
         return `${day}/${month}/${year}`;
     }
 
-    function formatCurrency(value, currencyCode) {
+    function formatCurrency(value) {
         const n = Number(value) || 0;
-        if (!currencyCode || currencyCode === "Outra") {
-            return n.toFixed(2).replace(".", ",");
-        }
         try {
             return new Intl.NumberFormat("pt-BR", {
                 style: "currency",
-                currency: currencyCode
+                currency: "BRL"
             }).format(n);
         } catch {
-            return n.toFixed(2).replace(".", ",") + " " + currencyCode;
+            return "R$ " + n.toFixed(2).replace(".", ",");
         }
     }
 
@@ -754,7 +720,7 @@
         if (!expenses.length) {
             const tr = document.createElement("tr");
             const td = document.createElement("td");
-            td.colSpan = 6;
+            td.colSpan = 5;
             td.className = "empty";
             td.textContent = "Nenhuma despesa cadastrada ainda. Adicione sua primeira despesa acima! 👆";
             tr.appendChild(td);
@@ -776,11 +742,8 @@
             const tdCat = document.createElement("td");
             tdCat.textContent = exp.category;
 
-            const tdCur = document.createElement("td");
-            tdCur.textContent = exp.currency || "";
-
             const tdAmount = document.createElement("td");
-            tdAmount.textContent = formatCurrency(exp.amount, exp.currency);
+            tdAmount.textContent = formatCurrency(exp.amount);
             tdAmount.style.fontWeight = "600";
             tdAmount.style.textAlign = "right";
 
@@ -802,7 +765,6 @@
             tr.appendChild(tdDate);
             tr.appendChild(tdDesc);
             tr.appendChild(tdCat);
-            tr.appendChild(tdCur);
             tr.appendChild(tdAmount);
             tr.appendChild(tdActions);
 
@@ -819,27 +781,15 @@
 
         if (!expenses.length) return;
 
-        const totalsByCurrency = {};
-        for (const exp of expenses) {
-            const cur = exp.currency || "Outra";
-            totalsByCurrency[cur] = (totalsByCurrency[cur] || 0) + Number(exp.amount || 0);
-        }
+        const total = expenses.reduce((acc, e) => acc + Number(e.amount || 0), 0);
 
-        for (const [cur, total] of Object.entries(totalsByCurrency)) {
-            const card = document.createElement("div");
-            card.className = "summary-card";
-
-            const label = document.createElement("strong");
-            label.textContent = `Total (${cur})`;
-
-            const value = document.createElement("div");
-            value.className = "summary-value";
-            value.textContent = formatCurrency(total, cur);
-
-            card.appendChild(label);
-            card.appendChild(value);
-            container.appendChild(card);
-        }
+        const totalCard = document.createElement("div");
+        totalCard.className = "summary-card";
+        totalCard.innerHTML = `
+            <strong>Total Gasto (R$)</strong>
+            <div class="summary-value">${formatCurrency(total)}</div>
+        `;
+        container.appendChild(totalCard);
 
         const countCard = document.createElement("div");
         countCard.className = "summary-card";
@@ -848,37 +798,9 @@
     }
 
     // DASHBOARD
-    function getAvailableCurrencies() {
-        const set = new Set();
-        for (const exp of expenses) {
-            set.add(exp.currency || "Outra");
-        }
-        return Array.from(set);
-    }
-
-    function renderDashboardCurrencySelect() {
-        const select = document.getElementById("dashboard-currency-select");
-        select.innerHTML = "";
-
-        const currencies = getAvailableCurrencies();
-        if (!currencies.length) return;
-
-        currencies.forEach(cur => {
-            const opt = document.createElement("option");
-            opt.value = cur;
-            opt.textContent = cur;
-            select.appendChild(opt);
-        });
-
-        if (!select.value && currencies.length) {
-            select.value = currencies[0];
-        }
-    }
-
     function renderDashboard() {
         const emptyEl = document.getElementById("dashboard-empty");
         const contentEl = document.getElementById("dashboard-content");
-        const select = document.getElementById("dashboard-currency-select");
 
         if (!expenses.length) {
             emptyEl.textContent = "Adicione algumas despesas para ver as estatísticas! 😊";
@@ -887,23 +809,7 @@
             return;
         }
 
-        renderDashboardCurrencySelect();
-        const selectedCurrency = select.value;
-        if (!selectedCurrency) {
-            emptyEl.textContent = "Adicione algumas despesas para ver as estatísticas! 😊";
-            emptyEl.style.display = "block";
-            contentEl.style.display = "none";
-            return;
-        }
-
-        const filtered = expenses.filter(e => (e.currency || "Outra") === selectedCurrency);
-
-        if (!filtered.length) {
-            emptyEl.textContent = `Não há despesas na moeda ${selectedCurrency}.`;
-            emptyEl.style.display = "block";
-            contentEl.style.display = "none";
-            return;
-        }
+        const filtered = expenses.slice();
 
         emptyEl.style.display = "none";
         contentEl.style.display = "block";
@@ -937,26 +843,26 @@
         }
 
         addStat(
-            `💰 Total Gasto (${selectedCurrency})`,
-            formatCurrency(total, selectedCurrency),
+            "💰 Total Gasto (R$)",
+            formatCurrency(total),
             `${count} despesas em ${numDays} dia(s)`
         );
 
         addStat(
             "📅 Média por Dia",
-            formatCurrency(avgPerDay, selectedCurrency)
+            formatCurrency(avgPerDay)
         );
 
         addStat(
             "📈 Maior Gasto",
-            formatCurrency(maxExpense.amount, selectedCurrency),
+            formatCurrency(maxExpense.amount),
             `${maxExpense.description}`
         );
 
         const avgPerItem = total / count;
         addStat(
             "📊 Média por Despesa",
-            formatCurrency(avgPerItem, selectedCurrency)
+            formatCurrency(avgPerItem)
         );
 
         // Totais por categoria
@@ -968,9 +874,9 @@
 
         const tableDiv = document.getElementById("table-category");
         const cats = Object.keys(totalsByCategory).sort();
-        let html = "<table><thead><tr><th>Categoria</th><th style='text-align:right;'>Total</th></tr></thead><tbody>";
+        let html = "<table><thead><tr><th>Categoria</th><th style='text-align:right;'>Total (R$)</th></tr></thead><tbody>";
         cats.forEach(cat => {
-            html += `<tr><td>${cat}</td><td style="text-align:right; font-weight:600;">${formatCurrency(totalsByCategory[cat], selectedCurrency)}</td></tr>`;
+            html += `<tr><td>${cat}</td><td style="text-align:right; font-weight:600;">${formatCurrency(totalsByCategory[cat])}</td></tr>`;
         });
         html += "</tbody></table>";
         tableDiv.innerHTML = html;
@@ -996,7 +902,7 @@
             data: {
                 labels: catLabels,
                 datasets: [{
-                    label: `Total (${selectedCurrency})`,
+                    label: "Total por categoria (R$)",
                     data: catData,
                     backgroundColor: "rgba(59, 130, 246, 0.7)",
                     borderColor: "rgba(37, 99, 235, 1)",
@@ -1028,7 +934,7 @@
             data: {
                 labels: dateLabels,
                 datasets: [{
-                    label: `Total diário (${selectedCurrency})`,
+                    label: "Total diário (R$)",
                     data: dateData,
                     tension: 0.3,
                     fill: false,
@@ -1063,7 +969,7 @@
             return;
         }
 
-        const header = ["date", "description", "category", "currency", "amount"];
+        const header = ["date", "description", "category", "amount"];
         let csv = header.join(";") + "\n";
 
         expenses.forEach(e => {
@@ -1071,7 +977,6 @@
                 escapeCSV(e.date || ""),
                 escapeCSV(e.description || ""),
                 escapeCSV(e.category || ""),
-                escapeCSV(e.currency || ""),
                 escapeCSV(e.amount || "")
             ];
             csv += row.join(";") + "\n";
@@ -1105,7 +1010,6 @@
             const idxDate = header.indexOf("date");
             const idxDesc = header.indexOf("description");
             const idxCat = header.indexOf("category");
-            const idxCur = header.indexOf("currency");
             const idxAmount = header.indexOf("amount");
 
             if (idxDate === -1 || idxDesc === -1 || idxAmount === -1) {
@@ -1131,12 +1035,11 @@
 
                 const description = row[idxDesc] || "";
                 const category = idxCat !== -1 ? (row[idxCat] || "") : "";
-                const currency = idxCur !== -1 ? (row[idxCur] || "") : "";
                 const amount = parseFloat((row[idxAmount] || "").replace(",", ".") || "0") || 0;
 
                 if (!description) continue;
 
-                imported.push({ date: dateISO, description, category, currency, amount });
+                imported.push({ date: dateISO, description, category, amount });
             }
 
             if (!imported.length) {
@@ -1164,7 +1067,6 @@
         const inputDate = document.getElementById("date");
         const inputDesc = document.getElementById("description");
         const selectCat = document.getElementById("category");
-        const selectCur = document.getElementById("currency");
         const inputAmount = document.getElementById("amount");
 
         const btnExport = document.getElementById("export-csv");
@@ -1172,7 +1074,6 @@
         const btnSave = document.getElementById("save-browser");
         const btnClear = document.getElementById("clear-data");
         const fileInput = document.getElementById("import-file");
-        const currencySelect = document.getElementById("dashboard-currency-select");
 
         const homeScreen = document.getElementById("home-screen");
         const enterAppBtn = document.getElementById("enter-app");
@@ -1189,11 +1090,6 @@
         loadFromLocalStorage();
         renderTable();
 
-        // Atualizar dashboard ao trocar moeda
-        currencySelect.addEventListener("change", () => {
-            renderDashboard();
-        });
-
         // Submeter formulário
         form.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -1201,7 +1097,6 @@
             const dateBR = inputDate.value.trim();
             const description = inputDesc.value.trim();
             const category = selectCat.value;
-            const currency = selectCur.value;
             const amount = parseFloat(String(inputAmount.value).replace(",", "."));
 
             if (!isValidDateBR(dateBR)) {
@@ -1217,7 +1112,7 @@
 
             const dateISO = paraISO(dateBR);
 
-            expenses.push({ date: dateISO, description, category, currency, amount });
+            expenses.push({ date: dateISO, description, category, amount });
             saveToLocalStorage();
             renderTable();
 
