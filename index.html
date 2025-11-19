@@ -247,7 +247,7 @@
             font-weight: 700;
         }
 
-        /* INFO BOX */
+        /* INFO BOX (opcional – está comentado no HTML) */
         .info-box {
             background: #fef3c7;
             border: 2px solid #f59e0b;
@@ -481,15 +481,16 @@
         <h1>💰 Controle de Gastos da Viagem</h1>
         <p>Registre suas despesas de forma simples e acompanhe seus gastos durante a viagem</p>
     </header>
-<!--
+
+    <!-- Info-box opcional
     <div class="info-box">
         <p><strong>💡 Como usar:</strong></p>
         <p>1️⃣ Preencha o formulário abaixo com cada gasto</p>
         <p>2️⃣ Clique em "Adicionar Despesa"</p>
         <p>3️⃣ Seus dados são salvos automaticamente no celular/computador</p>
-        <p>4️⃣ Use os botões abaixo da tabela para exportar ou importar dados</p>
     </div>
--->
+    -->
+
     <form id="expense-form">
         <div class="form-row">
             <label for="date">📅 Data da despesa (DD/MM/AAAA)</label>
@@ -525,24 +526,10 @@
     </form>
 
     <div class="actions">
-    <!--
-        <button id="export-csv" class="btn btn-primary">
-            <span class="btn-icon">📤</span> Exportar Dados (CSV)
-        </button>
-        <button id="import-csv" class="btn btn-secondary">
-            <span class="btn-icon">📥</span> Importar Dados (CSV)
-        </button>
-        <button id="clear-data" class="btn btn-danger">
-            <span class="btn-icon">🗑️</span> Limpar Tudo
-        </button>
-        -->
         <button id="save-browser" class="btn btn-secondary">
             <span class="btn-icon">💾</span> Salvar
         </button>
-        
     </div>
-
-    <input type="file" id="import-file" accept=".csv" style="display:none">
 
     <div class="summary" id="summary"></div>
 
@@ -645,54 +632,6 @@
         } catch {
             return "R$ " + n.toFixed(2).replace(".", ",");
         }
-    }
-
-    function escapeCSV(value) {
-        const str = String(value ?? "");
-        if (/[\";\n]/.test(str)) {
-            return '"' + str.replace(/"/g, '""') + '"';
-        }
-        return str;
-    }
-
-    function parseCSV(text, separator = ";") {
-        const rows = [];
-        let current = "";
-        let inQuotes = false;
-        let row = [];
-
-        for (let i = 0; i < text.length; i++) {
-            const char = text[i];
-            const next = text[i + 1];
-
-            if (char === '"') {
-                if (inQuotes && next === '"') {
-                    current += '"';
-                    i++;
-                } else {
-                    inQuotes = !inQuotes;
-                }
-            } else if (char === separator && !inQuotes) {
-                row.push(current);
-                current = "";
-            } else if ((char === "\n" || char === "\r") && !inQuotes) {
-                if (current !== "" || row.length) {
-                    row.push(current);
-                    rows.push(row);
-                    row = [];
-                    current = "";
-                }
-            } else {
-                current += char;
-            }
-        }
-
-        if (current !== "" || row.length) {
-            row.push(current);
-            rows.push(row);
-        }
-
-        return rows.filter(r => r.some(cell => cell.trim() !== ""));
     }
 
     function saveToLocalStorage() {
@@ -962,105 +901,6 @@
         });
     }
 
-    // EXPORTAÇÃO CSV
-    function exportCSV() {
-        if (!expenses.length) {
-            alert("Não há dados para exportar.");
-            return;
-        }
-
-        const header = ["date", "description", "category", "amount"];
-        let csv = header.join(";") + "\n";
-
-        expenses.forEach(e => {
-            const row = [
-                escapeCSV(e.date || ""),
-                escapeCSV(e.description || ""),
-                escapeCSV(e.category || ""),
-                escapeCSV(e.amount || "")
-            ];
-            csv += row.join(";") + "\n";
-        });
-
-        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "gastos_viagem.csv";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }
-
-    // IMPORTAÇÃO CSV
-    function handleImportFile(file) {
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const text = e.target.result;
-            const rows = parseCSV(text, ";");
-            if (!rows.length) {
-                alert("Arquivo vazio ou inválido.");
-                return;
-            }
-
-            const header = rows[0].map(h => h.trim().toLowerCase());
-            const idxDate = header.indexOf("date");
-            const idxDesc = header.indexOf("description");
-            const idxCat = header.indexOf("category");
-            const idxAmount = header.indexOf("amount");
-
-            if (idxDate === -1 || idxDesc === -1 || idxAmount === -1) {
-                alert("Cabeçalho inválido. Certifique-se de que o arquivo foi gerado por este app.");
-                return;
-            }
-
-            const imported = [];
-            for (let i = 1; i < rows.length; i++) {
-                const row = rows[i];
-                if (!row.length || row.every(c => !c.trim())) continue;
-
-                let dataRaw = (row[idxDate] || "").trim();
-                let dateISO = "";
-
-                if (/^\d{4}-\d{2}-\d{2}$/.test(dataRaw)) {
-                    dateISO = dataRaw;
-                } else if (/^\d{2}\/\d{2}\/\d{4}$/.test(dataRaw)) {
-                    dateISO = paraISO(dataRaw);
-                } else {
-                    continue;
-                }
-
-                const description = row[idxDesc] || "";
-                const category = idxCat !== -1 ? (row[idxCat] || "") : "";
-                const amount = parseFloat((row[idxAmount] || "").replace(",", ".") || "0") || 0;
-
-                if (!description) continue;
-
-                imported.push({ date: dateISO, description, category, amount });
-            }
-
-            if (!imported.length) {
-                alert("Nenhuma despesa válida encontrada no arquivo.");
-                return;
-            }
-
-            const replace = confirm("Deseja substituir todos os dados atuais pelos dados importados? (OK = substituir, Cancelar = adicionar)");
-            if (replace) {
-                expenses = imported;
-            } else {
-                expenses = expenses.concat(imported);
-            }
-
-            saveToLocalStorage();
-            renderTable();
-            alert("Dados importados com sucesso!");
-        };
-        reader.readAsText(file, "utf-8");
-    }
-
     // INICIALIZAÇÃO
     document.addEventListener("DOMContentLoaded", () => {
         const form = document.getElementById("expense-form");
@@ -1069,11 +909,7 @@
         const selectCat = document.getElementById("category");
         const inputAmount = document.getElementById("amount");
 
-        const btnExport = document.getElementById("export-csv");
-        const btnImport = document.getElementById("import-csv");
         const btnSave = document.getElementById("save-browser");
-        const btnClear = document.getElementById("clear-data");
-        const fileInput = document.getElementById("import-file");
 
         const homeScreen = document.getElementById("home-screen");
         const enterAppBtn = document.getElementById("enter-app");
@@ -1123,40 +959,10 @@
             inputDesc.focus();
         });
 
-        // Exportar CSV
-        btnExport.addEventListener("click", () => {
-            exportCSV();
-        });
-
-        // Importar CSV (abrir seletor de arquivo)
-        btnImport.addEventListener("click", () => {
-            fileInput.value = "";
-            fileInput.click();
-        });
-
-        fileInput.addEventListener("change", (e) => {
-            const file = e.target.files[0];
-            handleImportFile(file);
-        });
-
         // Salvar manualmente no navegador
         btnSave.addEventListener("click", () => {
             saveToLocalStorage();
             alert("Dados salvos no navegador com sucesso!");
-        });
-
-        // Limpar tudo
-        btnClear.addEventListener("click", () => {
-            if (!expenses.length) {
-                alert("Não há dados para limpar.");
-                return;
-            }
-            if (confirm("Tem certeza que deseja apagar TODAS as despesas?")) {
-                expenses = [];
-                localStorage.removeItem(STORAGE_KEY);
-                renderTable();
-                alert("Todos os dados foram apagados.");
-            }
         });
     });
 </script>
