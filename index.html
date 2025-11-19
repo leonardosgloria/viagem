@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Gastos da Viagem</title>
+    <style>
+        :root {
+            --bg: #f5f7fb;
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --danger: #dc2626;
+            --card: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #eef2ff, #e0f2fe);
+            min-height: 100vh;
+            padding: 16px;
+            color: var(--text);
+        }
+
+        .app {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card);
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        header h1 {
+            font-size: 1.4rem;
+        }
+
+        header p {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 0.75rem;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 16px;
+            align-items: end;
+        }
+
+        @media (max-width: 800px) {
+            form {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 520px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        label {
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 4px;
+            color: var(--muted);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 1px;
+            border-color: transparent;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 999px;
+            padding: 9px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: transform 0.05s ease, box-shadow 0.1s ease, background 0.1s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 0.75rem;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .actions-left, .actions-right {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .info {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        thead {
+            background: #eef2ff;
+        }
+
+        th, td {
+            padding: 8px 6px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th:nth-child(1), td:nth-child(1) {
+            width: 90px;
+        }
+
+        th:nth-child(5), td:nth-child(5) {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        th:last-child, td:last-child {
+            text-align: center;
+            width: 10px;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .summary {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.85rem;
+        }
+
+        .summary-card {
+            background: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+
+        .summary-card strong {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .summary-value {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 10px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <header>
+        <div>
+            <h1>Controle de Gastos da Viagem</h1>
+            <p>Adicione despesas, salve no navegador, exporte para CSV e continue de onde parou em qualquer lugar.</p>
+        </div>
+        <div class="badges">
+            <span class="badge">💾 Salva no navegador</span>
+            <span class="badge">📁 Importa/Exporta CSV</span>
+            <span class="badge">🌐 Pronto para GitHub Pages</span>
+        </div>
+    </header>
+
+    <form id="expense-form">
+        <div>
+            <label for="date">Data</label>
+            <input type="date" id="date" required>
+        </div>
+        <div>
+            <label for="description">Descrição</label>
+            <input type="text" id="description" placeholder="Ex: Almoço, Uber, Ingresso…" required>
+        </div>
+        <div>
+            <label for="category">Categoria</label>
+            <select id="category">
+                <option value="Alimentação">Alimentação</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Hospedagem">Hospedagem</option>
+                <option value="Passeios">Passeios</option>
+                <option value="Compras">Compras</option>
+                <option value="Outros">Outros</option>
+            </select>
+        </div>
+        <div>
+            <label for="currency">Moeda</label>
+            <select id="currency">
+                <option value="BRL">BRL (R$)</option>
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="Outra">Outra</option>
+            </select>
+        </div>
+        <div>
+            <label for="amount">Valor</label>
+            <input type="number" id="amount" step="0.01" min="0" required>
+        </div>
+        <div style="grid-column: 1 / -1; text-align: right;">
+            <button type="submit" class="btn btn-primary">
+                ➕ Adicionar despesa
+            </button>
+        </div>
+    </form>
+
+    <div class="actions">
+        <div class="actions-left">
+            <button id="save-browser" class="btn btn-secondary">💾 Salvar no navegador</button>
+            <button id="clear-data" class="btn btn-danger btn-sm">🧹 Limpar tudo</button>
+        </div>
+        <div class="actions-right">
+            <input type="file" id="import-file" accept=".csv" style="display:none">
+            <button id="import-csv" class="btn btn-secondary">📥 Importar CSV</button>
+            <button id="export-csv" class="btn btn-primary">📤 Exportar CSV</button>
+        </div>
+    </div>
+    <div class="info">
+        • Os dados são salvos automaticamente no navegador ao adicionar/alterar.  
+        • O CSV é gravado com separador <strong>;</strong> (padrão PT-BR) e pode ser reimportado depois.
+    </div>
+
+    <table id="expense-table">
+        <thead>
+        <tr>
+            <th>Data</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Moeda</th>
+            <th>Valor</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="expense-body">
+        <tr><td colspan="6" class="empty">Nenhuma despesa cadastrada ainda.</td></tr>
+        </tbody>
+    </table>
+
+    <div class="summary" id="summary">
+        <!-- Totais aparecem aqui -->
+    </div>
+</div>
+
+<script>
+    // ======= CONFIGURAÇÃO BÁSICA =======
+    const STORAGE_KEY = "travel-expenses-v1";
+
+    let expenses = [];
+
+    // ======= UTILITÁRIOS =======
+    function formatDate(isoDate) {
+        if (!isoDate) return "";
+        const [year, month, day] = isoDate.split("-");
+        return `${day}/${month}/${year}`;
+    }
+
+    function formatCurrency(value, currencyCode) {
+        const n = Number(value) || 0;
+        if (!currencyCode || currencyCode === "Outra") {
+            return n.toFixed(2).replace(".", ",");
+        }
+
+        try {
+            return new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: currencyCode
+            }).format(n);
+        } catch {
+            // fallback
+            return n.toFixed(2).replace(".", ",") + " " + currencyCode;
+        }
+    }
+
+    function escapeCSV(value) {
+        const str = String(value ?? "");
+        if (/[\";\n]/.test(str)) {
+            return '"' + str.replace(/"/g, '""') + '"';
+        }
+        return str;
+    }
+
+    function parseCSV(text, separator = ";") {
+        const rows = [];
+        let current = "";
+        let inQuotes = false;
+        let row = [];
+
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            const next = text[i + 1];
+
+            if (char === '"' ) {
+                if (inQuotes && next === '"') {
+                    // aspas escapadas ("")
+                    current += '"';
+                    i++; // pula segunda aspa
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (char === separator && !inQuotes) {
+                row.push(current);
+                current = "";
+            } else if ((char === "\n" || char === "\r") && !inQuotes) {
+                if (current !== "" || row.length) {
+                    row.push(current);
+                    rows.push(row);
+                    row = [];
+                    current = "";
+                }
+            } else {
+                current += char;
+            }
+        }
+
+        if (current !== "" || row.length) {
+            row.push(current);
+            rows.push(row);
+        }
+
+        return rows.filter(r => r.some(cell => cell.trim() !== ""));
+    }
+
+    function saveToLocalStorage() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(expenses));
+    }
+
+    function loadFromLocalStorage() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        try {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+                expenses = parsed;
+            }
+        } catch (e) {
+            console.error("Erro ao ler localStorage:", e);
+        }
+    }
+
+    // ======= RENDERIZAÇÃO =======
+    function renderTable() {
+        const tbody = document.getElementById("expense-body");
+        tbody.innerHTML = "";
+
+        if (!expenses.length) {
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+            td.colSpan = 6;
+            td.className = "empty";
+            td.textContent = "Nenhuma despesa cadastrada ainda.";
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+            renderSummary();
+            return;
+        }
+
+        expenses.forEach((exp, index) => {
+            const tr = document.createElement("tr");
+
+            const tdDate = document.createElement("td");
+            tdDate.textContent = formatDate(exp.date);
+
+            const tdDesc = document.createElement("td");
+            tdDesc.textContent = exp.description;
+
+            const tdCat = document.createElement("td");
+            tdCat.textContent = exp.category;
+
+            const tdCur = document.createElement("td");
+            tdCur.textContent = exp.currency || "";
+
+            const tdAmount = document.createElement("td");
+            tdAmount.textContent = formatCurrency(exp.amount, exp.currency);
+            tdAmount.style.fontWeight = "600";
+
+            const tdActions = document.createElement("td");
+            const delBtn = document.createElement("button");
+            delBtn.className = "btn btn-danger btn-sm";
+            delBtn.textContent = "✕";
+            delBtn.title = "Remover esta despesa";
+            delBtn.addEventListener("click", () => {
+                if (confirm("Remover esta despesa?")) {
+                    expenses.splice(index, 1);
+                    saveToLocalStorage();
+                    renderTable();
+                }
+            });
+            tdActions.appendChild(delBtn);
+
+            tr.appendChild(tdDate);
+            tr.appendChild(tdDesc);
+            tr.appendChild(tdCat);
+            tr.appendChild(tdCur);
+            tr.appendChild(tdAmount);
+            tr.appendChild(tdActions);
+
+            tbody.appendChild(tr);
+        });
+
+        renderSummary();
+    }
+
+    function renderSummary() {
+        const container = document.getElementById("summary");
+        container.innerHTML = "";
+
+        if (!expenses.length) return;
+
+        // total geral por moeda
+        const totalsByCurrency = {};
+        for (const exp of expenses) {
+            const cur = exp.currency || "Outra";
+            totalsByCurrency[cur] = (totalsByCurrency[cur] || 0) + Number(exp.amount || 0);
+        }
+
+        for (const [cur, total] of Object.entries(totalsByCurrency)) {
+            const card = document.createElement("div");
+            card.className = "summary-card";
+
+            const label = document.createElement("strong");
+            label.textContent = `Total (${cur})`;
+
+            const value = document.createElement("div");
+            value.className = "summary-value";
+            value.textContent = formatCurrency(total, cur);
+
+            card.appendChild(label);
+            card.appendChild(value);
+
+            container.appendChild(card);
+        }
+
+        const countCard = document.createElement("div");
+        countCard.className = "summary-card";
+        countCard.innerHTML = `<strong>Itens</strong><div class="summary-value">${expenses.length}</div>`;
+        container.appendChild(countCard);
+    }
+
+    // ======= EVENTOS =======
+    document.getElementById("expense-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const date = document.getElementById("date").value;
+        const description = document.getElementById("description").value.trim();
+        const category = document.getElementById("category").value;
+        const currency = document.getElementById("currency").value;
+        const amount = document.getElementById("amount").value;
+
+        if (!date || !description || !amount) {
+            alert("Preencha data, descrição e valor.");
+            return;
+        }
+
+        expenses.push({
+            id: Date.now(),
+            date,
+            description,
+            category,
+            currency,
+            amount: parseFloat(amount)
+        });
+
+        saveToLocalStorage();
+        renderTable();
+
+        // limpa só descrição e valor (data e categoria geralmente se repetem)
+        document.getElementById("description").value = "";
+        document.getElementById("amount").value = "";
+        document.getElementById("description").focus();
+    });
+
+    document.getElementById("save-browser").addEventListener("click", () => {
+        saveToLocalStorage();
+        alert("Dados salvos no navegador deste dispositivo.");
+    });
+
+    document.getElementById("clear-data").addEventListener("click", () => {
+        if (!expenses.length) return;
+        if (confirm("Tem certeza que deseja apagar TODAS as despesas?")) {
+            expenses = [];
+            saveToLocalStorage();
+            renderTable();
+        }
+    });
+
+    document.getElementById("export-csv").addEventListener("click", () => {
+        if (!expenses.length) {
+            alert("Não há despesas para exportar.");
+            return;
+        }
+
+        const header = ["id", "date", "description", "category", "currency", "amount"];
+        const lines = [header.map(escapeCSV).join(";")];
+
+        for (const exp of expenses) {
+            const row = [
+                exp.id,
+                exp.date,
+                exp.description,
+                exp.category,
+                exp.currency,
+                exp.amount
+            ].map(escapeCSV).join(";");
+            lines.push(row);
+        }
+
+        const csvContent = lines.join("\n");
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        const today = new Date().toISOString().slice(0, 10);
+        a.download = `gastos_viagem_${today}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    document.getElementById("import-csv").addEventListener("click", () => {
+        document.getElementById("import-file").click();
+    });
+
+    document.getElementById("import-file").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const text = event.target.result;
+            try {
+                const rows = parseCSV(text, ";");
+                if (!rows.length) {
+                    alert("Arquivo CSV vazio ou inválido.");
+                    return;
+                }
+
+                const header = rows[0].map(h => h.trim().toLowerCase());
+                const idxId = header.indexOf("id");
+                const idxDate = header.indexOf("date");
+                const idxDesc = header.indexOf("description");
+                const idxCat = header.indexOf("category");
+                const idxCur = header.indexOf("currency");
+                const idxAmount = header.indexOf("amount");
+
+                if (idxDate === -1 || idxDesc === -1 || idxAmount === -1) {
+                    alert("CSV não parece ter o formato esperado.");
+                    return;
+                }
+
+                const imported = [];
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    if (!row.length) continue;
+
+                    const date = row[idxDate] || "";
+                    const description = row[idxDesc] || "";
+                    const category = idxCat !== -1 ? row[idxCat] || "Outros" : "Outros";
+                    const currency = idxCur !== -1 ? row[idxCur] || "Outra" : "Outra";
+                    const amount = parseFloat(row[idxAmount] || "0");
+
+                    if (!date || !description || isNaN(amount)) continue;
+
+                    imported.push({
+                        id: idxId !== -1 ? Number(row[idxId]) || Date.now() + i : Date.now() + i,
+                        date,
+                        description,
+                        category,
+                        currency,
+                        amount
+                    });
+                }
+
+                if (!imported.length) {
+                    alert("Nenhuma linha válida encontrada no CSV.");
+                    return;
+                }
+
+                if (confirm("Substituir os dados atuais pelas despesas do arquivo? (Cancelar = adicionar junto)")) {
+                    expenses = imported;
+                } else {
+                    expenses = expenses.concat(imported);
+                }
+
+                saveToLocalStorage();
+                renderTable();
+                alert("Importação concluída com sucesso!");
+            } catch (err) {
+                console.error(err);
+                alert("Erro ao importar o CSV.");
+            }
+        };
+        reader.readAsText(file, "utf-8");
+
+        // limpa input pra permitir importar o mesmo arquivo de novo se quiser
+        e.target.value = "";
+    });
+
+    // ======= INICIALIZAÇÃO =======
+    (function init() {
+        loadFromLocalStorage();
+        renderTable();
+
+        // coloca data de hoje por padrão
+        const today = new Date().toISOString().slice(0, 10);
+        document.getElementById("date").value = today;
+    })();
+</script>
+</body>
+</html>
