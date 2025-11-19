@@ -26,104 +26,98 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background: linear-gradient(135deg, #eef2ff, #e0f2fe);
             min-height: 100vh;
-            padding: 16px;
+            padding: 20px;
             color: var(--text);
+            font-size: 18px;
+            line-height: 1.6;
         }
 
         .app {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             background: var(--card);
             border-radius: 18px;
             box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
-            padding: 20px;
+            padding: 30px;
         }
 
         header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 30px;
+            text-align: center;
         }
 
         header h1 {
-            font-size: 1.4rem;
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: var(--primary);
         }
 
         header p {
-            font-size: 0.85rem;
+            font-size: 1.1rem;
             color: var(--muted);
+            line-height: 1.5;
         }
 
-        .badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            font-size: 0.75rem;
-        }
-
-        .badge {
-            padding: 4px 8px;
-            border-radius: 999px;
-            background: #e0f2fe;
-            color: #0369a1;
-        }
-
+        /* FORMULÁRIO SIMPLIFICADO */
         form {
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: 8px;
-            margin-bottom: 16px;
-            align-items: end;
+            background: #f9fafb;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 2px solid var(--border);
         }
 
-        @media (max-width: 800px) {
-            form {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 520px) {
-            form {
-                grid-template-columns: 1fr;
-            }
+        .form-row {
+            margin-bottom: 20px;
         }
 
         label {
-            font-size: 0.8rem;
+            font-size: 1.2rem;
+            font-weight: 600;
             display: block;
-            margin-bottom: 4px;
-            color: var(--muted);
+            margin-bottom: 8px;
+            color: var(--text);
         }
 
         input, select {
             width: 100%;
-            padding: 8px 10px;
+            padding: 16px;
             border-radius: 10px;
-            border: 1px solid var(--border);
-            font-size: 0.9rem;
+            border: 2px solid var(--border);
+            font-size: 1.2rem;
+            background: white;
         }
 
         input:focus, select:focus {
-            outline: 2px solid var(--primary);
-            outline-offset: 1px;
-            border-color: transparent;
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+            border-color: var(--primary);
         }
 
+        /* BOTÕES GRANDES E CLAROS */
         .btn {
             border: none;
-            border-radius: 999px;
-            padding: 9px 16px;
-            font-size: 0.9rem;
+            border-radius: 12px;
+            padding: 18px 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
             cursor: pointer;
-            display: inline-flex;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 12px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            transition: transform 0.05s ease, box-shadow 0.1s ease, background 0.1s ease;
-            white-space: nowrap;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn-primary {
@@ -134,7 +128,6 @@
 
         .btn-primary:hover {
             background: var(--primary-dark);
-            transform: translateY(-1px);
         }
 
         .btn-secondary {
@@ -147,427 +140,481 @@
             color: white;
         }
 
-        .btn-sm {
-            padding: 4px 10px;
-            font-size: 0.75rem;
+        .btn-icon {
+            font-size: 1.5rem;
         }
 
+        /* AÇÕES COM GRID */
         .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
-            justify-content: space-between;
-            align-items: center;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
         }
 
-        .actions-left, .actions-right {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+        @media (min-width: 768px) {
+            .actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        .info {
-            font-size: 0.75rem;
-            color: var(--muted);
+        /* TABELA RESPONSIVA E LEGÍVEL */
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
-            margin-top: 8px;
+            font-size: 1.1rem;
         }
 
         thead {
-            background: #eef2ff;
+            background: #3b82f6;
+            color: white;
         }
 
-        th, td {
-            padding: 8px 6px;
+        th {
+            padding: 16px 12px;
             text-align: left;
-            border-bottom: 1px solid #e5e7eb;
+            font-weight: 600;
+            font-size: 1.15rem;
         }
 
-        th:nth-child(1), td:nth-child(1) {
-            width: 90px;
-        }
-
-        th:nth-child(5), td:nth-child(5) {
-            text-align: right;
-            white-space: nowrap;
-        }
-
-        th:last-child, td:last-child {
-            text-align: center;
-            width: 10px;
+        td {
+            padding: 16px 12px;
+            border-bottom: 2px solid #e5e7eb;
         }
 
         tbody tr:nth-child(even) {
             background: #f9fafb;
         }
 
-        .summary {
-            margin-top: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            font-size: 0.85rem;
-        }
-
-        .summary-card {
-            background: #f1f5f9;
-            padding: 8px 12px;
-            border-radius: 10px;
-        }
-
-        .summary-card strong {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-
-        .summary-value {
-            font-size: 1rem;
-            font-weight: 600;
+        tbody tr:hover {
+            background: #eff6ff;
         }
 
         .empty {
             text-align: center;
-            padding: 10px;
+            padding: 30px;
             color: var(--muted);
+            font-size: 1.2rem;
         }
 
-        /* DASHBOARD */
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
 
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+
+        /* RESUMO DESTACADO */
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .summary-card strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        /* INFO BOX */
+        .info-box {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-box p {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: #92400e;
+        }
+
+        /* DASHBOARD SIMPLIFICADO */
         .dashboard {
-            margin-top: 24px;
-            padding-top: 16px;
-            border-top: 1px dashed #e5e7eb;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 3px dashed #e5e7eb;
         }
 
         .dashboard-header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 10px;
-            align-items: center;
-            margin-bottom: 12px;
+            text-align: center;
+            margin-bottom: 25px;
         }
 
         .dashboard-header h2 {
-            font-size: 1.05rem;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 15px;
         }
 
         .dashboard-controls {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            flex-direction: column;
             align-items: center;
-            font-size: 0.8rem;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-controls label {
+            font-size: 1.2rem;
         }
 
         .dashboard-controls select {
-            max-width: 140px;
+            max-width: 300px;
+            font-size: 1.2rem;
+            padding: 14px;
         }
 
         .stat-cards {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-
-        @media (max-width: 800px) {
-            .stat-cards {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
-        @media (max-width: 520px) {
-            .stat-cards {
-                grid-template-columns: 1fr;
-            }
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
         .stat-card {
             background: #eff6ff;
+            border: 2px solid #93c5fd;
             border-radius: 12px;
-            padding: 8px 10px;
+            padding: 20px;
+            text-align: center;
         }
 
         .stat-label {
-            font-size: 0.75rem;
+            font-size: 1rem;
             color: var(--muted);
-            margin-bottom: 3px;
+            margin-bottom: 8px;
         }
 
         .stat-value {
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
         }
 
         .stat-extra {
-            font-size: 0.7rem;
+            font-size: 0.95rem;
             color: var(--muted);
-            margin-top: 2px;
+            margin-top: 8px;
         }
 
-        .dashboard-main {
-            display: grid;
-            grid-template-columns: minmax(0, 2fr) minmax(0, 2fr);
-            gap: 14px;
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px solid var(--border);
         }
 
-        @media (max-width: 800px) {
-            .dashboard-main {
-                grid-template-columns: 1fr;
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        /* TELA INICIAL */
+        .home-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #eef2ff, #e0f2fe);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            z-index: 9999;
+            text-align: center;
+        }
+
+        .home-screen h1 {
+            font-size: 2.5rem;
+            color: #1d4ed8;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .home-screen img {
+            width: 90%;
+            max-width: 400px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .home-screen button {
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            border-radius: 999px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            transition: 0.2s;
+            font-weight: 700;
+        }
+
+        .home-screen button:hover {
+            transform: scale(1.05);
+            background: #1d4ed8;
+        }
+
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .app {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            .home-screen h1 {
+                font-size: 1.8rem;
+            }
+
+            table {
+                font-size: 0.95rem;
+            }
+
+            th, td {
+                padding: 12px 8px;
             }
         }
 
-        .card {
-            background: #f9fafb;
-            border-radius: 12px;
-            padding: 10px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .card-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--muted);
-        }
-
-        .dashboard-note {
-            font-size: 0.7rem;
-            color: var(--muted);
-            margin-top: 6px;
-        }
-
-        #table-category table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.8rem;
-        }
-
-        #table-category th, #table-category td {
-            padding: 6px 4px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        #table-category th {
-            background: #e5e7eb;
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
+
 <!-- TELA INICIAL -->
-<div id="home-screen" style="
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #eef2ff, #e0f2fe);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    z-index: 9999;
-    text-align: center;
-">
-
-    <h1 style="
-        font-size: 2rem;
-        color: #1d4ed8;
-        margin-bottom: 20px;
-        font-weight: 700;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    ">
-        Vovô e Vovó na Estrada App
-    </h1>
-
-    <img src="vovo3.png" alt="Vovô e Vovó na Estrada" style="
-        width: 80%;
-        max-width: 350px;
-        border-radius: 12px;
-        margin-bottom: 25px;
-        box-shadow: 0 8px 18px rgba(0,0,0,0.2);
-    ">
-
-    <button id="enter-app" style="
-        padding: 12px 28px;
-        font-size: 1.1rem;
-        border-radius: 999px;
-        background: #3b82f6;
-        color: white;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        transition: 0.2s;
-    "
-    onmouseover="this.style.transform='scale(1.05)'"
-    onmouseout="this.style.transform='scale(1)'"
-    >
-        Entrar 🚐
+<div id="home-screen" class="home-screen">
+    <h1>🚐 Vovô e Vovó na Estrada</h1>
+    <img src="vovo3.png" alt="Vovô e Vovó na Estrada" onerror="this.style.display='none'">
+    <button id="enter-app">
+        Entrar no App 🚐
     </button>
-
 </div>
-
 
 <div class="app">
     <header>
-        <div>
-            <h1>Controle de Gastos da Viagem</h1>
-            <p>Adicione despesas, salve no navegador, exporte para CSV e continue de onde parou em qualquer lugar.</p>
-        </div>
-        <div class="badges">
-            <span class="badge">💾 Salva no navegador</span>
-            <span class="badge">📁 Importa/Exporta CSV</span>
-            <span class="badge">📊 Dashboard de estatísticas</span>
-        </div>
+        <h1>💰 Controle de Gastos da Viagem</h1>
+        <p>Registre suas despesas de forma simples e acompanhe seus gastos durante a viagem</p>
     </header>
 
+    <div class="info-box">
+        <p><strong>💡 Como usar:</strong></p>
+        <p>1️⃣ Preencha o formulário abaixo com cada gasto</p>
+        <p>2️⃣ Clique em "Adicionar Despesa"</p>
+        <p>3️⃣ Seus dados são salvos automaticamente no celular/computador</p>
+        <p>4️⃣ Use os botões abaixo da tabela para exportar ou importar dados</p>
+    </div>
+
     <form id="expense-form">
-        <div>
-            <label for="date">Data</label>
-            <input type="date" id="date" required>
+        <div class="form-row">
+            <label for="date">📅 Data da despesa (DD/MM/AAAA)</label>
+            <input type="text" id="date" placeholder="DD/MM/AAAA" required>
         </div>
-        <div>
-            <label for="description">Descrição</label>
-            <input type="text" id="description" placeholder="Ex: Almoço, Uber, Ingresso…" required>
+
+        <div class="form-row">
+            <label for="description">📝 O que foi comprado?</label>
+            <input type="text" id="description" placeholder="Ex: Almoço no restaurante" required>
         </div>
-        <div>
-            <label for="category">Categoria</label>
+
+        <div class="form-row">
+            <label for="category">🏷️ Categoria</label>
             <select id="category">
-                <option value="Alimentação">Alimentação</option>
-                <option value="Transporte">Transporte</option>
-                <option value="Hospedagem">Hospedagem</option>
-                <option value="Passeios">Passeios</option>
-                <option value="Compras">Compras</option>
-                <option value="Outros">Outros</option>
+                <option value="Alimentação">🍽️ Alimentação</option>
+                <option value="Transporte">🚗 Transporte</option>
+                <option value="Hospedagem">🏨 Hospedagem</option>
+                <option value="Passeios">🎡 Passeios</option>
+                <option value="Compras">🛍️ Compras</option>
+                <option value="Saúde">💊 Saúde</option>
+                <option value="Outros">📦 Outros</option>
             </select>
         </div>
-        <div>
-            <label for="currency">Moeda</label>
+
+        <div class="form-row">
+            <label for="currency">💵 Moeda</label>
             <select id="currency">
-                <option value="BRL">BRL (R$)</option>
-                <option value="USD">USD ($)</option>
-                <option value="EUR">EUR (€)</option>
+                <option value="BRL">Real (R$)</option>
+                <option value="USD">Dólar ($)</option>
+                <option value="EUR">Euro (€)</option>
                 <option value="Outra">Outra</option>
             </select>
         </div>
-        <div>
-            <label for="amount">Valor</label>
-            <input type="number" id="amount" step="0.01" min="0" required>
+
+        <div class="form-row">
+            <label for="amount">💰 Valor gasto</label>
+            <input type="number" id="amount" step="0.01" min="0" placeholder="0.00" required>
         </div>
-        <div style="grid-column: 1 / -1; text-align: right;">
-            <button type="submit" class="btn btn-primary">
-                ➕ Adicionar despesa
-            </button>
-        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <span class="btn-icon">➕</span> Adicionar Despesa
+        </button>
     </form>
 
     <div class="actions">
-        <div class="actions-left">
-            <button id="save-browser" class="btn btn-secondary">💾 Salvar no navegador</button>
-            <button id="clear-data" class="btn btn-danger btn-sm">🧹 Limpar tudo</button>
-        </div>
-        <div class="actions-right">
-            <input type="file" id="import-file" accept=".csv" style="display:none">
-            <button id="import-csv" class="btn btn-secondary">📥 Importar CSV</button>
-            <button id="export-csv" class="btn btn-primary">📤 Exportar CSV</button>
-        </div>
-    </div>
-    <div class="info">
-        • Os dados são salvos automaticamente no navegador ao adicionar/alterar.  
-        • O CSV usa separador <strong>;</strong> (padrão PT-BR) e pode ser reimportado depois.
+        <button id="export-csv" class="btn btn-primary">
+            <span class="btn-icon">📤</span> Exportar Dados (CSV)
+        </button>
+        <button id="import-csv" class="btn btn-secondary">
+            <span class="btn-icon">📥</span> Importar Dados (CSV)
+        </button>
+        <button id="save-browser" class="btn btn-secondary">
+            <span class="btn-icon">💾</span> Salvar no Navegador
+        </button>
+        <button id="clear-data" class="btn btn-danger">
+            <span class="btn-icon">🗑️</span> Limpar Tudo
+        </button>
     </div>
 
-    <table id="expense-table">
-        <thead>
-        <tr>
-            <th>Data</th>
-            <th>Descrição</th>
-            <th>Categoria</th>
-            <th>Moeda</th>
-            <th>Valor</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody id="expense-body">
-        <tr><td colspan="6" class="empty">Nenhuma despesa cadastrada ainda.</td></tr>
-        </tbody>
-    </table>
+    <input type="file" id="import-file" accept=".csv" style="display:none">
 
-    <div class="summary" id="summary">
-        <!-- Totais por moeda aparecem aqui -->
+    <div class="summary" id="summary"></div>
+
+    <div class="table-container">
+        <table id="expense-table">
+            <thead>
+                <tr>
+                    <th>📅 Data</th>
+                    <th>📝 Descrição</th>
+                    <th>🏷️ Categoria</th>
+                    <th>💵 Moeda</th>
+                    <th>💰 Valor</th>
+                    <th>🗑️ Ações</th>
+                </tr>
+            </thead>
+            <tbody id="expense-body">
+                <tr><td colspan="6" class="empty">Nenhuma despesa cadastrada ainda. Adicione sua primeira despesa acima! 👆</td></tr>
+            </tbody>
+        </table>
     </div>
 
     <!-- DASHBOARD -->
     <section class="dashboard">
         <div class="dashboard-header">
-            <h2>Dashboard de Estatísticas</h2>
-            <div class="dashboard-controls">
-                <label for="dashboard-currency-select">Moeda do dashboard:</label>
-                <select id="dashboard-currency-select">
-                    <!-- opções preenchidas via JS -->
-                </select>
-            </div>
+            <h2>📊 Estatísticas da Viagem</h2>
         </div>
 
-        <div id="dashboard-empty" class="info" style="display:none;">
-            Adicione algumas despesas para ver o dashboard. 😊
+        <div id="dashboard-empty" class="empty" style="display:none;">
+            Adicione algumas despesas para ver as estatísticas! 😊
         </div>
 
         <div id="dashboard-content" style="display:none;">
-            <div class="stat-cards" id="stat-cards">
-                <!-- cards criados via JS -->
+            <div class="dashboard-controls">
+                <label for="dashboard-currency-select">Escolha a moeda para ver as estatísticas:</label>
+                <select id="dashboard-currency-select"></select>
             </div>
 
-            <div class="dashboard-main">
-                <div class="card">
-                    <div class="card-title">Gastos por categoria</div>
-                    <canvas id="chartByCategory" height="180"></canvas>
-                    <div class="dashboard-note">
-                        Distribuição do total gasto em cada categoria na moeda selecionada.
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-title">Gastos por dia</div>
-                    <canvas id="chartByDate" height="180"></canvas>
-                    <div class="dashboard-note">
-                        Somatório diário na moeda selecionada.
-                    </div>
-                </div>
+            <div class="stat-cards" id="stat-cards"></div>
+
+            <div class="chart-container">
+                <div class="chart-title">📊 Gastos por Categoria</div>
+                <canvas id="chartByCategory" height="120"></canvas>
             </div>
 
-            <div class="card" style="margin-top: 14px;">
-                <div class="card-title">Tabela de totais por categoria</div>
+            <div class="chart-container">
+                <div class="chart-title">📈 Gastos por Dia</div>
+                <canvas id="chartByDate" height="120"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">📋 Resumo por Categoria</div>
                 <div id="table-category"></div>
-            </div>
-
-            <div class="dashboard-note">
-                ⚠️ O dashboard considera apenas as despesas na moeda escolhida. Se usar mais de uma moeda na viagem, analise uma por vez.
             </div>
         </div>
     </section>
 </div>
 
-<!-- Chart.js via CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <script>
-    // ======= CONFIGURAÇÃO BÁSICA =======
     const STORAGE_KEY = "travel-expenses-v1";
-
     let expenses = [];
     let chartByCategory = null;
     let chartByDate = null;
 
-    // ======= UTILITÁRIOS =======
+    // ======= DATA EM DD/MM/AAAA =======
+    function hojeFormatado() {
+        const d = new Date();
+        const dia = String(d.getDate()).padStart(2, "0");
+        const mes = String(d.getMonth() + 1).padStart(2, "0");
+        const ano = d.getFullYear();
+        return `${dia}/${mes}/${ano}`;
+    }
+
+    function isValidDateBR(str) {
+        const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(str);
+        if (!m) return false;
+        const dia = parseInt(m[1], 10);
+        const mes = parseInt(m[2], 10);
+        const ano = parseInt(m[3], 10);
+        const d = new Date(ano, mes - 1, dia);
+        return d.getFullYear() === ano && d.getMonth() === mes - 1 && d.getDate() === dia;
+    }
+
+    function paraISO(dataBR) {
+        // de DD/MM/AAAA para AAAA-MM-DD
+        const [dia, mes, ano] = dataBR.split("/");
+        return `${ano}-${mes}-${dia}`;
+    }
+
+    // UTILITÁRIOS
     function formatDate(isoDate) {
+        // de AAAA-MM-DD para DD/MM/AAAA
         if (!isoDate) return "";
         const [year, month, day] = isoDate.split("-");
         return `${day}/${month}/${year}`;
@@ -578,14 +625,12 @@
         if (!currencyCode || currencyCode === "Outra") {
             return n.toFixed(2).replace(".", ",");
         }
-
         try {
             return new Intl.NumberFormat("pt-BR", {
                 style: "currency",
                 currency: currencyCode
             }).format(n);
         } catch {
-            // fallback
             return n.toFixed(2).replace(".", ",") + " " + currencyCode;
         }
     }
@@ -608,7 +653,7 @@
             const char = text[i];
             const next = text[i + 1];
 
-            if (char === '"' ) {
+            if (char === '"') {
                 if (inQuotes && next === '"') {
                     current += '"';
                     i++;
@@ -655,7 +700,7 @@
         }
     }
 
-    // ======= RENDERIZAÇÃO TABELA E RESUMO =======
+    // RENDERIZAÇÃO
     function renderTable() {
         const tbody = document.getElementById("expense-body");
         tbody.innerHTML = "";
@@ -665,7 +710,7 @@
             const td = document.createElement("td");
             td.colSpan = 6;
             td.className = "empty";
-            td.textContent = "Nenhuma despesa cadastrada ainda.";
+            td.textContent = "Nenhuma despesa cadastrada ainda. Adicione sua primeira despesa acima! 👆";
             tr.appendChild(td);
             tbody.appendChild(tr);
             renderSummary();
@@ -691,17 +736,19 @@
             const tdAmount = document.createElement("td");
             tdAmount.textContent = formatCurrency(exp.amount, exp.currency);
             tdAmount.style.fontWeight = "600";
+            tdAmount.style.textAlign = "right";
 
             const tdActions = document.createElement("td");
+            tdActions.style.textAlign = "center";
             const delBtn = document.createElement("button");
-            delBtn.className = "btn btn-danger btn-sm";
-            delBtn.textContent = "✕";
-            delBtn.title = "Remover esta despesa";
+            delBtn.className = "btn-delete";
+            delBtn.textContent = "Remover";
             delBtn.addEventListener("click", () => {
-                if (confirm("Remover esta despesa?")) {
+                if (confirm("Tem certeza que deseja remover esta despesa?")) {
                     expenses.splice(index, 1);
                     saveToLocalStorage();
                     renderTable();
+                    alert("Despesa removida com sucesso!");
                 }
             });
             tdActions.appendChild(delBtn);
@@ -745,17 +792,16 @@
 
             card.appendChild(label);
             card.appendChild(value);
-
             container.appendChild(card);
         }
 
         const countCard = document.createElement("div");
         countCard.className = "summary-card";
-        countCard.innerHTML = `<strong>Itens</strong><div class="summary-value">${expenses.length}</div>`;
+        countCard.innerHTML = `<strong>Total de Despesas</strong><div class="summary-value">${expenses.length}</div>`;
         container.appendChild(countCard);
     }
 
-    // ======= DASHBOARD =======
+    // DASHBOARD
     function getAvailableCurrencies() {
         const set = new Set();
         for (const exp of expenses) {
@@ -769,9 +815,7 @@
         select.innerHTML = "";
 
         const currencies = getAvailableCurrencies();
-        if (!currencies.length) {
-            return;
-        }
+        if (!currencies.length) return;
 
         currencies.forEach(cur => {
             const opt = document.createElement("option");
@@ -780,7 +824,6 @@
             select.appendChild(opt);
         });
 
-        // mantém seleção se existir
         if (!select.value && currencies.length) {
             select.value = currencies[0];
         }
@@ -792,6 +835,7 @@
         const select = document.getElementById("dashboard-currency-select");
 
         if (!expenses.length) {
+            emptyEl.textContent = "Adicione algumas despesas para ver as estatísticas! 😊";
             emptyEl.style.display = "block";
             contentEl.style.display = "none";
             return;
@@ -800,6 +844,7 @@
         renderDashboardCurrencySelect();
         const selectedCurrency = select.value;
         if (!selectedCurrency) {
+            emptyEl.textContent = "Adicione algumas despesas para ver as estatísticas! 😊";
             emptyEl.style.display = "block";
             contentEl.style.display = "none";
             return;
@@ -817,7 +862,7 @@
         emptyEl.style.display = "none";
         contentEl.style.display = "block";
 
-        // ---- Estatísticas básicas ----
+        // Estatísticas básicas
         const total = filtered.reduce((acc, e) => acc + Number(e.amount || 0), 0);
         const datesSet = new Set(filtered.map(e => e.date));
         const numDays = datesSet.size || 1;
@@ -846,46 +891,45 @@
         }
 
         addStat(
-            `Total (${selectedCurrency})`,
+            `💰 Total Gasto (${selectedCurrency})`,
             formatCurrency(total, selectedCurrency),
-            `${count} lançamentos em ${numDays} dia(s)`
+            `${count} despesas em ${numDays} dia(s)`
         );
 
         addStat(
-            "Média por dia",
+            "📅 Média por Dia",
             formatCurrency(avgPerDay, selectedCurrency)
         );
 
         addStat(
-            "Maior gasto",
+            "📈 Maior Gasto",
             formatCurrency(maxExpense.amount, selectedCurrency),
-            `${maxExpense.description} (${formatDate(maxExpense.date)})`
+            `${maxExpense.description}`
         );
 
         const avgPerItem = total / count;
         addStat(
-            "Média por lançamento",
+            "📊 Média por Despesa",
             formatCurrency(avgPerItem, selectedCurrency)
         );
 
-        // ---- Totais por categoria ----
+        // Totais por categoria
         const totalsByCategory = {};
         for (const e of filtered) {
             const cat = e.category || "Outros";
             totalsByCategory[cat] = (totalsByCategory[cat] || 0) + Number(e.amount || 0);
         }
 
-        // tabela por categoria
         const tableDiv = document.getElementById("table-category");
         const cats = Object.keys(totalsByCategory).sort();
-        let html = "<table><thead><tr><th>Categoria</th><th>Total</th></tr></thead><tbody>";
+        let html = "<table><thead><tr><th>Categoria</th><th style='text-align:right;'>Total</th></tr></thead><tbody>";
         cats.forEach(cat => {
-            html += `<tr><td>${cat}</td><td style="text-align:right;">${formatCurrency(totalsByCategory[cat], selectedCurrency)}</td></tr>`;
+            html += `<tr><td>${cat}</td><td style="text-align:right; font-weight:600;">${formatCurrency(totalsByCategory[cat], selectedCurrency)}</td></tr>`;
         });
         html += "</tbody></table>";
         tableDiv.innerHTML = html;
 
-        // ---- Totais por dia ----
+        // Totais por dia
         const totalsByDate = {};
         for (const e of filtered) {
             const d = e.date;
@@ -893,14 +937,12 @@
         }
         const sortedDates = Object.keys(totalsByDate).sort();
 
-        // ---- Gráficos (Chart.js) ----
         const catLabels = cats;
         const catData = cats.map(c => totalsByCategory[c]);
-
         const dateLabels = sortedDates.map(d => formatDate(d));
         const dateData = sortedDates.map(d => totalsByDate[d]);
 
-        // Categoria
+        // Gráfico por categoria
         const ctxCat = document.getElementById("chartByCategory").getContext("2d");
         if (chartByCategory) chartByCategory.destroy();
         chartByCategory = new Chart(ctxCat, {
@@ -908,25 +950,31 @@
             data: {
                 labels: catLabels,
                 datasets: [{
-                    label: `Total por categoria (${selectedCurrency})`,
-                    data: catData
+                    label: `Total (${selectedCurrency})`,
+                    data: catData,
+                    backgroundColor: "rgba(59, 130, 246, 0.7)",
+                    borderColor: "rgba(37, 99, 235, 1)",
+                    borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: { size: 14 }
+                        }
+                    }
+                },
                 scales: {
                     y: {
-                        ticks: {
-                            callback: function(value) {
-                                return formatCurrency(value, selectedCurrency);
-                            }
-                        }
+                        beginAtZero: true
                     }
                 }
             }
         });
 
-        // Por dia
+        // Gráfico por dia
         const ctxDate = document.getElementById("chartByDate").getContext("2d");
         if (chartByDate) chartByDate.destroy();
         chartByDate = new Chart(ctxDate, {
@@ -934,202 +982,245 @@
             data: {
                 labels: dateLabels,
                 datasets: [{
-                    label: `Total por dia (${selectedCurrency})`,
+                    label: `Total diário (${selectedCurrency})`,
                     data: dateData,
-                    tension: 0.25
+                    tension: 0.3,
+                    fill: false,
+                    borderWidth: 3,
+                    borderColor: "rgba(37, 99, 235, 1)",
+                    pointRadius: 4,
+                    pointBackgroundColor: "rgba(59, 130, 246, 1)"
                 }]
             },
             options: {
                 responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: { size: 14 }
+                        }
+                    }
+                },
                 scales: {
                     y: {
-                        ticks: {
-                            callback: function(value) {
-                                return formatCurrency(value, selectedCurrency);
-                            }
-                        }
+                        beginAtZero: true
                     }
                 }
             }
         });
     }
 
-    // Quando mudar a moeda do dashboard
-    document.getElementById("dashboard-currency-select").addEventListener("change", () => {
-        renderDashboard();
-    });
-
-    // ======= EVENTOS PRINCIPAIS =======
-    document.getElementById("expense-form").addEventListener("submit", (e) => {
-        e.preventDefault();
-        const date = document.getElementById("date").value;
-        const description = document.getElementById("description").value.trim();
-        const category = document.getElementById("category").value;
-        const currency = document.getElementById("currency").value;
-        const amount = document.getElementById("amount").value;
-
-        if (!date || !description || !amount) {
-            alert("Preencha data, descrição e valor.");
+    // EXPORTAÇÃO CSV
+    function exportCSV() {
+        if (!expenses.length) {
+            alert("Não há dados para exportar.");
             return;
         }
 
-        expenses.push({
-            id: Date.now(),
-            date,
-            description,
-            category,
-            currency,
-            amount: parseFloat(amount)
+        const header = ["date", "description", "category", "currency", "amount"];
+        let csv = header.join(";") + "\n";
+
+        expenses.forEach(e => {
+            const row = [
+                escapeCSV(e.date || ""),
+                escapeCSV(e.description || ""),
+                escapeCSV(e.category || ""),
+                escapeCSV(e.currency || ""),
+                escapeCSV(e.amount || "")
+            ];
+            csv += row.join(";") + "\n";
         });
 
-        saveToLocalStorage();
-        renderTable();
-
-        document.getElementById("description").value = "";
-        document.getElementById("amount").value = "";
-        document.getElementById("description").focus();
-    });
-
-    document.getElementById("save-browser").addEventListener("click", () => {
-        saveToLocalStorage();
-        alert("Dados salvos no navegador deste dispositivo.");
-    });
-
-    document.getElementById("clear-data").addEventListener("click", () => {
-        if (!expenses.length) return;
-        if (confirm("Tem certeza que deseja apagar TODAS as despesas?")) {
-            expenses = [];
-            saveToLocalStorage();
-            renderTable();
-        }
-    });
-
-    document.getElementById("export-csv").addEventListener("click", () => {
-        if (!expenses.length) {
-            alert("Não há despesas para exportar.");
-            return;
-        }
-
-        const header = ["id", "date", "description", "category", "currency", "amount"];
-        const lines = [header.map(escapeCSV).join(";")];
-
-        for (const exp of expenses) {
-            const row = [
-                exp.id,
-                exp.date,
-                exp.description,
-                exp.category,
-                exp.currency,
-                exp.amount
-            ].map(escapeCSV).join(";");
-            lines.push(row);
-        }
-
-        const csvContent = lines.join("\n");
-        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
         const url = URL.createObjectURL(blob);
-
         const a = document.createElement("a");
         a.href = url;
-        const today = new Date().toISOString().slice(0, 10);
-        a.download = `gastos_viagem_${today}.csv`;
+        a.download = "gastos_viagem.csv";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-    });
+    }
 
-    document.getElementById("import-csv").addEventListener("click", () => {
-        document.getElementById("import-file").click();
-    });
-
-    document.getElementById("import-file").addEventListener("change", (e) => {
-        const file = e.target.files[0];
+    // IMPORTAÇÃO CSV
+    function handleImportFile(file) {
         if (!file) return;
 
         const reader = new FileReader();
-        reader.onload = (event) => {
-            const text = event.target.result;
-            try {
-                const rows = parseCSV(text, ";");
-                if (!rows.length) {
-                    alert("Arquivo CSV vazio ou inválido.");
-                    return;
-                }
-
-                const header = rows[0].map(h => h.trim().toLowerCase());
-                const idxId = header.indexOf("id");
-                const idxDate = header.indexOf("date");
-                const idxDesc = header.indexOf("description");
-                const idxCat = header.indexOf("category");
-                const idxCur = header.indexOf("currency");
-                const idxAmount = header.indexOf("amount");
-
-                if (idxDate === -1 || idxDesc === -1 || idxAmount === -1) {
-                    alert("CSV não parece ter o formato esperado.");
-                    return;
-                }
-
-                const imported = [];
-                for (let i = 1; i < rows.length; i++) {
-                    const row = rows[i];
-                    if (!row.length) continue;
-
-                    const date = row[idxDate] || "";
-                    const description = row[idxDesc] || "";
-                    const category = idxCat !== -1 ? row[idxCat] || "Outros" : "Outros";
-                    const currency = idxCur !== -1 ? row[idxCur] || "Outra" : "Outra";
-                    const amount = parseFloat(row[idxAmount] || "0");
-
-                    if (!date || !description || isNaN(amount)) continue;
-
-                    imported.push({
-                        id: idxId !== -1 ? Number(row[idxId]) || Date.now() + i : Date.now() + i,
-                        date,
-                        description,
-                        category,
-                        currency,
-                        amount
-                    });
-                }
-
-                if (!imported.length) {
-                    alert("Nenhuma linha válida encontrada no CSV.");
-                    return;
-                }
-
-                if (confirm("Substituir os dados atuais pelas despesas do arquivo? (Cancelar = adicionar junto)")) {
-                    expenses = imported;
-                } else {
-                    expenses = expenses.concat(imported);
-                }
-
-                saveToLocalStorage();
-                renderTable();
-                alert("Importação concluída com sucesso!");
-            } catch (err) {
-                console.error(err);
-                alert("Erro ao importar o CSV.");
+        reader.onload = (e) => {
+            const text = e.target.result;
+            const rows = parseCSV(text, ";");
+            if (!rows.length) {
+                alert("Arquivo vazio ou inválido.");
+                return;
             }
+
+            const header = rows[0].map(h => h.trim().toLowerCase());
+            const idxDate = header.indexOf("date");
+            const idxDesc = header.indexOf("description");
+            const idxCat = header.indexOf("category");
+            const idxCur = header.indexOf("currency");
+            const idxAmount = header.indexOf("amount");
+
+            if (idxDate === -1 || idxDesc === -1 || idxAmount === -1) {
+                alert("Cabeçalho inválido. Certifique-se de que o arquivo foi gerado por este app.");
+                return;
+            }
+
+            const imported = [];
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                if (!row.length || row.every(c => !c.trim())) continue;
+
+                let dataRaw = (row[idxDate] || "").trim();
+                let dateISO = "";
+
+                if (/^\d{4}-\d{2}-\d{2}$/.test(dataRaw)) {
+                    dateISO = dataRaw;
+                } else if (/^\d{2}\/\d{2}\/\d{4}$/.test(dataRaw)) {
+                    dateISO = paraISO(dataRaw);
+                } else {
+                    // se vier em outro formato, ignora
+                    continue;
+                }
+
+                const description = row[idxDesc] || "";
+                const category = idxCat !== -1 ? (row[idxCat] || "") : "";
+                const currency = idxCur !== -1 ? (row[idxCur] || "") : "";
+                const amount = parseFloat((row[idxAmount] || "").replace(",", ".") || "0") || 0;
+
+                if (!description) continue;
+
+                imported.push({ date: dateISO, description, category, currency, amount });
+            }
+
+            if (!imported.length) {
+                alert("Nenhuma despesa válida encontrada no arquivo.");
+                return;
+            }
+
+            const replace = confirm("Deseja substituir todos os dados atuais pelos dados importados? (OK = substituir, Cancelar = adicionar)");
+            if (replace) {
+                expenses = imported;
+            } else {
+                expenses = expenses.concat(imported);
+            }
+
+            saveToLocalStorage();
+            renderTable();
+            alert("Dados importados com sucesso!");
         };
         reader.readAsText(file, "utf-8");
-        e.target.value = "";
-    });
+    }
 
-    // ======= INICIALIZAÇÃO =======
-    (function init() {
+    // INICIALIZAÇÃO
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("expense-form");
+        const inputDate = document.getElementById("date");
+        const inputDesc = document.getElementById("description");
+        const selectCat = document.getElementById("category");
+        const selectCur = document.getElementById("currency");
+        const inputAmount = document.getElementById("amount");
+
+        const btnExport = document.getElementById("export-csv");
+        const btnImport = document.getElementById("import-csv");
+        const btnSave = document.getElementById("save-browser");
+        const btnClear = document.getElementById("clear-data");
+        const fileInput = document.getElementById("import-file");
+        const currencySelect = document.getElementById("dashboard-currency-select");
+
+        const homeScreen = document.getElementById("home-screen");
+        const enterAppBtn = document.getElementById("enter-app");
+
+        // TELA INICIAL
+        enterAppBtn.addEventListener("click", () => {
+            homeScreen.classList.add("hidden");
+        });
+
+        // Preenche a data com hoje no formato DD/MM/AAAA
+        inputDate.value = hojeFormatado();
+
+        // Carregar do localStorage
         loadFromLocalStorage();
         renderTable();
 
-        const today = new Date().toISOString().slice(0, 10);
-        document.getElementById("date").value = today;
-    })();
+        // Atualizar dashboard ao trocar moeda
+        currencySelect.addEventListener("change", () => {
+            renderDashboard();
+        });
 
-// HOME SCREEN
-document.getElementById("enter-app").addEventListener("click", () => {
-    document.getElementById("home-screen").style.display = "none";
-});
+        // Submeter formulário
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
 
+            const dateBR = inputDate.value.trim();
+            const description = inputDesc.value.trim();
+            const category = selectCat.value;
+            const currency = selectCur.value;
+            const amount = parseFloat(String(inputAmount.value).replace(",", "."));
+
+            if (!isValidDateBR(dateBR)) {
+                alert("Data inválida. Use o formato DD/MM/AAAA.");
+                inputDate.focus();
+                return;
+            }
+
+            if (!description || isNaN(amount) || amount < 0) {
+                alert("Preencha todos os campos corretamente.");
+                return;
+            }
+
+            const dateISO = paraISO(dateBR);
+
+            expenses.push({ date: dateISO, description, category, currency, amount });
+            saveToLocalStorage();
+            renderTable();
+
+            // limpar campos principais
+            inputDesc.value = "";
+            inputAmount.value = "";
+            inputDate.value = hojeFormatado();
+
+            inputDesc.focus();
+        });
+
+        // Exportar CSV
+        btnExport.addEventListener("click", () => {
+            exportCSV();
+        });
+
+        // Importar CSV (abrir seletor de arquivo)
+        btnImport.addEventListener("click", () => {
+            fileInput.value = "";
+            fileInput.click();
+        });
+
+        fileInput.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            handleImportFile(file);
+        });
+
+        // Salvar manualmente no navegador
+        btnSave.addEventListener("click", () => {
+            saveToLocalStorage();
+            alert("Dados salvos no navegador com sucesso!");
+        });
+
+        // Limpar tudo
+        btnClear.addEventListener("click", () => {
+            if (!expenses.length) {
+                alert("Não há dados para limpar.");
+                return;
+            }
+            if (confirm("Tem certeza que deseja apagar TODAS as despesas?")) {
+                expenses = [];
+                localStorage.removeItem(STORAGE_KEY);
+                renderTable();
+                alert("Todos os dados foram apagados.");
+            }
+        });
+    });
 </script>
+
 </body>
 </html>
